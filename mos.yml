@@ -1,0 +1,47 @@
+author: mongoose-os
+description: A JS-enabled demo Mongoose OS firmware
+# arch: PLATFORM
+version: 1.0
+manifest_version: 2017-05-18
+libs_version: ${mos.version}
+modules_version: ${mos.version}
+mongoose_os_version: ${mos.version}
+
+config_schema:
+  - ["mqtt.server", "aaaeasjta16mu-ats.iot.ap-south-1.amazonaws.com:8883"]
+  - ["i2c.enable", true]
+  - ["sys", "o", {title: "System settings"}]
+  - ["sntp", "o", {title: "SNTP settings"}]
+  - ["sntp.enable", "b", true, {title: "Enable SNTP"}]
+  - ["sntp.server", "s", "time.google.com", {title: "Server address"}]
+  - ["sntp.retry_min", "i", 1, {title: "Minimum retry interval"}]
+  - ["sntp.retry_max", "i", 30, {title: "Maximum retry interval"}]
+  - ["sntp.update_interval", "i", 7200, {title: "Update interval. If 0, performs a one-off sync"}]
+  # https://users.pja.edu.pl/~jms/qnx/help/watcom/clibref/global_data.html
+  # https://github.com/G6EJD/ESP32-Time-Services-and-SETENV-variable/blob/master/ESP32_Time_and_SETENV.ino
+  # Example: EST5EDT4,M4.1.0/02:00:00,M10.5.0/02:00:00
+  # Eastern Standard Time is 5 hours earlier than Coordinated Universal Time (UTC).
+  # Standard time and daylight savings time both apply to this locale.
+  # Eastern Daylight Time (EDT) is one hour ahead of standard time.
+  # Daylight saving time starts on the first (1) Sunday (0) of April (4) at 2:00 A.M., and ends on the last (5) Sunday (0) of October (10) at 2:00 A.M.
+  - ["sys.tz_spec", "s", "", {title: "See formats for the TZ env var: \"man tzset\". Formats like \":/path/to/file\" are not supported"}]
+  - ["blynk", "o", {"title": "Blynk settings"}]
+  - ["blynk.enable", "b", true, {"title": "Enable Blynk"}]
+  - ["blynk.server", "s", "blynk-cloud.com:8442", {"title": "Server address"}]
+  - ["blynk.auth", "s", "2ukLGUdMkJHsfogxe0l9fu3wzmGhJqMU", {"title": "Auth token"}]
+
+tags:
+  - js
+  - docs:net:SNTP
+
+filesystem:
+  - fs
+
+libs:
+  - origin: https://github.com/mongoose-os-libs/boards
+  - origin: https://github.com/mongoose-os-libs/js-demo-bundle
+  - origin: https://github.com/mongoose-os-libs/blynk
+  - origin: https://github.com/mongoose-os-libs/mjs
+  - origin: https://github.com/mongoose-os-libs/wifi
+cdefs:
+  MG_ENABLE_SNTP: 1
